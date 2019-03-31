@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">BlueUtils</string>
+    <string name="title_activity_server">ServerActivity</string>
+</resources>
