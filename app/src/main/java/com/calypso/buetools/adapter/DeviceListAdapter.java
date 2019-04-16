@@ -1,9 +1,10 @@
-package com.calypso.buetools;
+package com.calypso.buetools.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 
 import com.calypso.bluelib.bean.SearchResult;
+import com.calypso.buetools.R;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 

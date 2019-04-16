@@ -1,4 +1,4 @@
-package com.calypso.buetools;
+package com.calypso.buetools.utils;
 
 /**
  * Created by lichee on 2019/3/29.

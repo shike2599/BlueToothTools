@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Build;
 import android.os.Handler;
 
-import com.calypso.buetools.Constant;
+import com.calypso.buetools.utils.Constant;
 
 import java.io.IOException;
 import java.util.UUID;

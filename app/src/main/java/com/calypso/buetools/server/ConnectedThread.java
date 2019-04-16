@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.calypso.buetools.Constant;
+import com.calypso.buetools.utils.Constant;
 
 import java.io.IOException;
 import java.io.InputStream;

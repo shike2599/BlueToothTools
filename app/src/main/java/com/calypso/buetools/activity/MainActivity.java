@@ -1,4 +1,4 @@
-package com.calypso.buetools;
+package com.calypso.buetools.activity;
 
 import android.Manifest;
 import android.bluetooth.BluetoothDevice;
@@ -27,6 +27,9 @@ import com.calypso.bluelib.listener.OnSearchDeviceListener;
 import com.calypso.bluelib.listener.OnSendMessageListener;
 import com.calypso.bluelib.manage.BlueManager;
 import com.calypso.bluelib.utils.TypeConversion;
+import com.calypso.buetools.adapter.DeviceListAdapter;
+import com.calypso.buetools.R;
+import com.calypso.buetools.view.RadarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private OnSendMessageListener onSendMessageListener;
     private OnSearchDeviceListener onSearchDeviceListener;
     private OnReceiveMessageListener onReceiveMessageListener;
+    private RadarView radarView;
+    private RelativeLayout parent_r0;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             switch (msg.what) {
                 case 0:
                     statusView.setText(message);
+                    Toast.makeText(MainActivity.this,message,Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
                     stringBuilder.append(message + " \n");
@@ -99,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
         contextView = findViewById(R.id.context);
         statusView = findViewById(R.id.status);
         recycleView.setAdapter(mAdapter);
+        radarView = findViewById(R.id.radar);
+        parent_r0 = findViewById(R.id.parent_r0);
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(MainActivity.this,
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -136,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "SearchCompleted: bondedList" + bondedList.toString());
                 Log.d(TAG, "SearchCompleted: newList" + newList.toString());
                 sendMessage(0, "搜索完成,点击列表进行连接！");
+                radarView.stop();
+                parent_r0.setVisibility(View.GONE);
                 mDevices.clear();
                 mDevices.addAll(newList);
                 mAdapter.notifyDataSetChanged();
@@ -260,6 +270,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 bluemanage.setReadVersion(false);
                 bluemanage.searchDevices();
+                parent_r0.setVisibility(View.VISIBLE);
+                radarView.start();
             }
         });
 

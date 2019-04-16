@@ -1,4 +1,4 @@
-package com.calypso.buetools;
+package com.calypso.buetools.activity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.calypso.buetools.utils.Constant;
+import com.calypso.buetools.R;
 import com.calypso.buetools.server.AcceptThread;
 
 public class ServerActivity extends Activity {

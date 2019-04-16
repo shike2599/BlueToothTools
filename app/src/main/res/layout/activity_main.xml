@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.calypso.buetools.MainActivity">
+    tools:context="com.calypso.buetools.activity.MainActivity">
 
     <LinearLayout
         android:id="@+id/topl"
@@ -27,34 +27,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="连接设备"
-            android:visibility="gone"
-         />
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送指令" />
+            android:text="发送指令"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="断开设备" />
+            android:text="断开设备"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/get_sn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SN" />
+            android:text="SN"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/parent_l1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/topl"
         android:layout_marginTop="@dimen/dp_4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/status"
@@ -68,7 +71,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/parent_l1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <ProgressBar
             android:id="@+id/progressbar"
@@ -84,17 +88,36 @@
             android:layout_below="@id/progressbar"
             android:layout_marginTop="@dimen/dp_10"
             android:textSize="10sp" />
-
-
     </RelativeLayout>
     　
+
+    <RelativeLayout
+        android:id="@+id/parent_r0"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/parent_l1"
+        android:gravity="center"
+        android:visibility="gone">
+        <com.calypso.buetools.view.RadarView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/radar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:circleColor="#565cd6"
+            app:circleNum="4"
+            app:flicker="3"
+            app:raindropNum="4"
+            app:showCross="true"
+            app:speed="5"
+            app:sweepColor="#565cd6" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/parent_r1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_4"
         android:layout_below="@id/parent_l1"
+        android:layout_marginTop="@dimen/dp_4"
         android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
