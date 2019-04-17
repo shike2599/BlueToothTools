@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="search_bg">#76ef67</color>
     <color name="transparent">#00000000</color>
+    <color name="blue_check">#3493d4</color>
+    <color name="gray_deep">#c9000000</color>
+    <color name="orange">#FA8C20</color>
 </resources>

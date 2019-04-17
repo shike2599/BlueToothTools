@@ -2,6 +2,7 @@ package com.calypso.buetools.activity;
 
 import android.Manifest;
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -87,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                     statusView.setText(message);
                     deviesinfo.setVisibility(View.VISIBLE);
                     devieslist.setVisibility(View.GONE);
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this,DeviceTypeActivity.class);
+                    MainActivity.this.startActivity(intent);
                     break;
             }
         }
@@ -271,11 +275,14 @@ public class MainActivity extends AppCompatActivity {
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bluemanage.setReadVersion(false);
-                bluemanage.searchDevices();
-                parent_r0.setVisibility(View.VISIBLE);
-                search_btn.setVisibility(View.GONE);
-                radarView.start();
+//                bluemanage.setReadVersion(false);
+//                bluemanage.searchDevices();
+//                parent_r0.setVisibility(View.VISIBLE);
+//                search_btn.setVisibility(View.GONE);
+//                radarView.start();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,DeviceTypeActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
 

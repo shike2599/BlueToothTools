@@ -21,9 +21,15 @@
             android:label="@string/title_activity_server">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.DeviceTypeActivity" />
+        <activity android:name=".activity.TongYongCJBActivity" />
+        <activity android:name=".activity.DianLiuCJBActivity" />
+        <activity android:name=".activity.ZhuanJieBanCJBActivity" />
+        <activity android:name=".activity.WangGuanCJBActivity"></activity>
     </application>
 
 </manifest>

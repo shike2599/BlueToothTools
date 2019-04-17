@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    tools:context="com.calypso.buetools.activity.DeviceTypeActivity">
+    <Button
+        android:id="@+id/tongyongCJB_Btn"
+        android:text="通用采集板设置"
+        android:onClick="toTongYongCJBSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape"
+         />
+    <Button
+        android:id="@+id/dianliuCJB_Btn"
+        android:text="电流采集板设置"
+        android:onClick="toDianLiuCJBSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_shape"
+        />
+    <Button
+        android:id="@+id/zhuanjiebanCJB_Btn"
+        android:text="转接板设置"
+        android:onClick="toZhuanJieBanCJBSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_shape"
+        />
+    <Button
+        android:id="@+id/wanguanCJB_Btn"
+        android:text="网关设置"
+        android:onClick="toWangGuanCJBSetting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_shape"
+        />
+</LinearLayout>
