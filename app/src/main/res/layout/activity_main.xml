@@ -11,8 +11,9 @@
     tools:context="com.calypso.buetools.activity.MainActivity">
 
     <LinearLayout
+        android:layout_centerInParent="true"
         android:id="@+id/topl"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -79,6 +80,7 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/transparent"
             android:layout_marginBottom="5dp" />
 
         <TextView
@@ -94,9 +96,8 @@
     <RelativeLayout
         android:id="@+id/parent_r0"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/parent_l1"
-        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:visibility="gone">
         <com.calypso.buetools.view.RadarView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/radar"
@@ -116,14 +117,13 @@
         android:id="@+id/parent_r1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/parent_l1"
         android:layout_marginTop="@dimen/dp_4"
         android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/blue_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 

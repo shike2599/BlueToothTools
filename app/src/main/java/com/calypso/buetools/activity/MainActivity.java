@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,8 +28,8 @@ import com.calypso.bluelib.listener.OnSearchDeviceListener;
 import com.calypso.bluelib.listener.OnSendMessageListener;
 import com.calypso.bluelib.manage.BlueManager;
 import com.calypso.bluelib.utils.TypeConversion;
-import com.calypso.buetools.adapter.DeviceListAdapter;
 import com.calypso.buetools.R;
+import com.calypso.buetools.adapter.DeviceListAdapter;
 import com.calypso.buetools.view.RadarView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private OnReceiveMessageListener onReceiveMessageListener;
     private RadarView radarView;
     private RelativeLayout parent_r0;
+    private Button search_btn;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -107,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
         recycleView.setAdapter(mAdapter);
         radarView = findViewById(R.id.radar);
         parent_r0 = findViewById(R.id.parent_r0);
+        search_btn = findViewById(R.id.btn_search);
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(MainActivity.this,
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -265,12 +268,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btn_search).setOnClickListener(new View.OnClickListener() {
+        search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bluemanage.setReadVersion(false);
                 bluemanage.searchDevices();
                 parent_r0.setVisibility(View.VISIBLE);
+                search_btn.setVisibility(View.GONE);
                 radarView.start();
             }
         });
