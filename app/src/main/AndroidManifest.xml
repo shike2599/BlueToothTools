@@ -29,7 +29,8 @@
         <activity android:name=".activity.TongYongCJBActivity" />
         <activity android:name=".activity.DianLiuCJBActivity" />
         <activity android:name=".activity.ZhuanJieBanCJBActivity" />
-        <activity android:name=".activity.WangGuanCJBActivity"></activity>
+        <activity android:name=".activity.WangGuanCJBActivity" />
+        <activity android:name=".activity.SettingDialog"></activity>
     </application>
 
 </manifest>

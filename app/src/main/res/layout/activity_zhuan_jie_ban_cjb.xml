@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.calypso.buetools.activity.ZhuanJieBanCJBActivity">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+   <LinearLayout
+       android:layout_marginTop="@dimen/dp_10"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/zhuanJieBan_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:layout_below="@+id/zhuanJieBan_recyclerView"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:onClick="zhuanJieBanSetting"
+            android:layout_marginLeft="80dp"
+            android:text="开始设置" />
+        <Button
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="添加设备"
+            android:background="@drawable/button_shape_up"
+            android:onClick="addSettingDevice"
+            />
+    </RelativeLayout>
+   </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

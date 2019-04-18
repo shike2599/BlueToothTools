@@ -1,9 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.calypso.buetools.activity.DianLiuCJBActivity">
+    <LinearLayout
+        android:layout_marginTop="6dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID:"
+            android:textSize="16dp"
+            />
+        <EditText
+            android:id="@+id/dianliu_idEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入id（0-65535）"
+            android:textSize="20dp"
+            android:inputType="number"
+            />
+    </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:layout_marginTop="6dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="电流变比:"
+            android:textSize="16dp"
+            />
+        <EditText
+            android:id="@+id/dianliuBianBi_idEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="请输入电流变比（0-65535）"
+            android:textSize="20dp"
+            android:inputType="number"
+            />
+    </LinearLayout>
+
+    <Button
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开始设置"
+        android:onClick="dianLiuSetting"
+        android:background="@drawable/button_shape"
+        />
+</LinearLayout>
