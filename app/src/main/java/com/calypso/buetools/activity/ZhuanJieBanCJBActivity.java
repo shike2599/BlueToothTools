@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.calypso.bluelib.manage.BlueManager;
 import com.calypso.buetools.R;
 import com.calypso.buetools.adapter.ZhuanJieCJBAdapter;
+import com.calypso.buetools.utils.SendMessageUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,9 +26,11 @@ public class ZhuanJieBanCJBActivity extends AppCompatActivity {
     private List<Map<String,String>> dataList;
     private ZhuanJieCJBAdapter mAdapter;
     private AlertDialog.Builder customizeDialog;
+    private SendMessageUtils sendMessageUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sendMessageUtils = SendMessageUtils.getInstance();
         setContentView(R.layout.activity_zhuan_jie_ban_cjb);
         mRecyclerView = findViewById(R.id.zhuanJieBan_recyclerView);
         dataList = new ArrayList<>();
@@ -37,7 +41,15 @@ public class ZhuanJieBanCJBActivity extends AppCompatActivity {
     }
 
     public void zhuanJieBanSetting(View view){
-
+        List<Map<String,String>> dataList = mAdapter.getDatalist();
+        List<Byte> sendDate = new ArrayList<>();
+        sendDate.add((byte)((dataList.size()*2) & 0xff));
+        for(Map<String,String> map : dataList){
+           byte[] bytes = sendMessageUtils.int2hex(Integer.parseInt(map.get("device_id")));
+           sendDate.add(bytes[0]);
+           sendDate.add(bytes[1]);
+        }
+        BlueManager.getInstance(this.getApplicationContext()).dataSend(sendMessageUtils.setTYSettingMsg(sendDate));
     }
     //添加设备
     public void addSettingDevice(View view){
@@ -69,15 +81,7 @@ public class ZhuanJieBanCJBActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 获取EditView中的输入内容
-                      String device_Name = input_Name.getText().toString();
                       String device_Id = input_ID.getText().toString();
-                      if(device_Name!=null){
-                          device_Name.trim();
-                      }else{
-                          Toast.makeText(ZhuanJieBanCJBActivity.this,"请先输入设备名称！",
-                                  Toast.LENGTH_LONG).show();
-                          return;
-                      }
                       if(device_Id!=null){
                           device_Id.trim();
                       }else{
@@ -86,7 +90,7 @@ public class ZhuanJieBanCJBActivity extends AppCompatActivity {
                           return;
                         }
                         Map<String,String> deviceMap = new HashMap<>();
-                        deviceMap.put("device_name",device_Name);
+//                        deviceMap.put("device_name",device_Name);
                         deviceMap.put("device_id",device_Id);
                         dataList.add(deviceMap);
                         mAdapter.setDate(dataList);

@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.calypso.buetools.activity.ZhuanJieBanCJBActivity">
-    <android.support.v4.widget.NestedScrollView
+
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-   <LinearLayout
-       android:layout_marginTop="@dimen/dp_10"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:orientation="vertical"
-       >
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/zhuanJieBan_recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/zhuanJieBan_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
     <RelativeLayout
-        android:layout_below="@+id/zhuanJieBan_recyclerView"
+        android:paddingBottom="10dp"
+        android:layout_below="@+id/framelayout"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
@@ -43,6 +44,4 @@
             android:onClick="addSettingDevice"
             />
     </RelativeLayout>
-   </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

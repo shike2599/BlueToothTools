@@ -38,7 +38,7 @@ public class ZhuanJieCJBAdapter extends RecyclerView.Adapter<ZhuanJieCJBAdapter.
     @Override
     public void onBindViewHolder(ZhuanJieBanViewHolder holder, final int position) {
         Map map = datalist.get(position);
-        holder.show_deviceName.setText(map.get("device_name").toString()+(position+1)+": ");
+        holder.show_deviceName.setText((position+1)+": ");
         holder.input_deviceId.setText(map.get("device_id").toString());
         holder.delete_Img.setOnClickListener(new View.OnClickListener() {
             @Override

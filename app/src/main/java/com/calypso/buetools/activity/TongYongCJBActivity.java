@@ -2,6 +2,7 @@ package com.calypso.buetools.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -9,7 +10,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.calypso.bluelib.manage.BlueManager;
 import com.calypso.buetools.R;
+import com.calypso.buetools.utils.SendMessageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +24,15 @@ public class TongYongCJBActivity extends AppCompatActivity {
             five_spinner,six_spinner,seven_spinner,eight_spinner;
     private int[] choseArr = new int[8];
     private int device_id;
-    private List<Integer> typeList = new ArrayList<>();
+//    private List<Byte> typeList = new ArrayList<>();
+    private SendMessageUtils sendMessageUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tong_yong_cjb);
+
+        sendMessageUtils = SendMessageUtils.getInstance();
+
         input_id = findViewById(R.id.tongyong_idEdit);
         one_spinner = findViewById(R.id.one_Spinner);
         two_spinner = findViewById(R.id.two_Spinner);
@@ -151,7 +158,7 @@ public class TongYongCJBActivity extends AppCompatActivity {
     }
 
     public void tongYongSetting(View view){
-
+        List<Byte> dataList = new ArrayList<>();
         String id = input_id.getText().toString();
         if(id!=null){
             if(Integer.parseInt(id)<=65535){
@@ -164,24 +171,23 @@ public class TongYongCJBActivity extends AppCompatActivity {
             Toast.makeText(this,"请新输入ID",Toast.LENGTH_SHORT).show();
             return;
         }
-
-       for(int i=0;i<choseArr.length;i++){
-           selectSettingType(choseArr[i]);
+        byte[] id_byte = sendMessageUtils.int2hex(device_id);
+        dataList.add(id_byte[0]);
+        dataList.add(id_byte[1]);
+        for(int i=0;i<choseArr.length;i++){
+            if(choseArr[i]==0){
+                dataList.add((byte)0x00);
+            }else if(choseArr[i] == 1){
+                dataList.add((byte)0x01);
+            }else if(choseArr[i] == 2){
+                dataList.add((byte)0x02);
+            }else if(choseArr[i] == 3){
+                dataList.add((byte)0x03);
+            }else if(choseArr[i] == 4){
+                dataList.add((byte)0x04);
+            }
        }
 
-    }
-
-    private void selectSettingType(int choose){
-        if(choose==0){
-            typeList.add(0x00);
-        }else if(choose == 1){
-            typeList.add(0x01);
-        }else if(choose == 2){
-            typeList.add(0x02);
-        }else if(choose == 3){
-            typeList.add(0x03);
-        }else if(choose == 4){
-            typeList.add(0x04);
-        }
+        BlueManager.getInstance(this.getApplicationContext()).dataSend(sendMessageUtils.setTYSettingMsg(dataList));
     }
 }

@@ -74,7 +74,7 @@ public class BlueManager {
     private boolean readVersion = true;
     private boolean supportBLE = false;
     private BluetoothGatt mBluetoothGatt;
-
+    private BluetoothGattCharacteristic bluetoothGattCharacteristic;
     private enum STATUS {
         DISCOVERING,
         CONNECTED,
@@ -508,7 +508,7 @@ public class BlueManager {
                     Log.i("blue", "the connectListener is null !");
                     return;
                 }
-                BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mac);
+                final BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mac);
                 onConnectListener.onConnectting();
                 mBluetoothAdapter.cancelDiscovery();
                 mBluetoothGatt = remoteDevice.connectGatt(mContext, false, new BluetoothGattCallback() {
@@ -533,21 +533,36 @@ public class BlueManager {
                     @Override
                     public void onServicesDiscovered(BluetoothGatt gatt, int status) {
                         super.onServicesDiscovered(gatt, status);
+//
+//                        List<BluetoothGattService> servicesList;
+//                        //获取服务列表
+//                        servicesList = mBluetoothGatt.getServices();
+//
+//                        for(BluetoothGattService bluetoothGattService : servicesList){
+//                            Log.d(TAG,"bluetoothGattService--UUID===="+bluetoothGattService.getUuid());
+//                            List<BluetoothGattCharacteristic> list = bluetoothGattService.getCharacteristics();
+//                            for(BluetoothGattCharacteristic bluetoothGattCharacteristic : list){
+//                                Log.d(TAG,"bluetoothGattCharacteristic--UUID===="+bluetoothGattCharacteristic.getUuid());
+//                            }
+//                        }
 
-                        List<BluetoothGattService> servicesList;
-                        //获取服务列表
-                        servicesList = mBluetoothGatt.getServices();
+                        BluetoothGattService bluetoothGattService = mBluetoothGatt.getService(UUID.fromString(Constants.SERVICE_UUID));
+                        bluetoothGattCharacteristic = bluetoothGattService.getCharacteristic(UUID.fromString(Constants.CHARACTERISTIC_UUID));
 
                     }
                     //调用mBluetoothGatt.readCharacteristic(characteristic)读取数据回调，在这里面接收数据
                     @Override
                     public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
                         super.onCharacteristicRead(gatt, characteristic, status);
+                        Log.d(TAG,"onCharacteristicRead====status==="+status);
+                        byte[] read_date = characteristic.getValue();
+                        Log.d(TAG,"onCharacteristicRead====read_date==="+read_date.length);
                     }
                     //发送数据后的回调
                     @Override
                     public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
                         super.onCharacteristicWrite(gatt, characteristic, status);
+                        Log.d(TAG,"数据发送成功~~");
                     }
 
                     @Override
@@ -740,5 +755,17 @@ public class BlueManager {
             throw new NullPointerException();
     }
 
-
+    /**
+     * ble蓝牙发送数据
+     * @param list
+     */
+    public void dataSend(List<Byte> list){
+        byte[] data = new byte[list.size()];
+        for(int i = 0; i < list.size(); i++){
+            data[i] = list.get(i);
+            Log.d(TAG,"data===="+i+"====="+String.format("%02X", data[i]));
+        }
+        bluetoothGattCharacteristic.setValue(data);
+        mBluetoothGatt.writeCharacteristic(bluetoothGattCharacteristic);
+    };
 }
