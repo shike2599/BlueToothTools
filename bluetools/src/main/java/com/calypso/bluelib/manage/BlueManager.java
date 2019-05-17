@@ -3,6 +3,11 @@ package com.calypso.bluelib.manage;
 import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -38,7 +43,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Created by zhikang on 2017/12/28.
  */
-
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class BlueManager {
     private static final String DEVICE_HAS_NOT_BLUETOOTH_MODULE = "device has not bluetooth module!";
     private static final String TAG = BlueManager.class.getSimpleName();
@@ -68,6 +73,7 @@ public class BlueManager {
     private int number = 0;
     private boolean readVersion = true;
     private boolean supportBLE = false;
+    private BluetoothGatt mBluetoothGatt;
 
     private enum STATUS {
         DISCOVERING,
@@ -318,7 +324,7 @@ public class BlueManager {
 
     /**
      * 连接bluetooth
-     *
+     * 经典蓝牙
      * @param mac
      */
     public void connectDevice(String mac) {
@@ -339,6 +345,38 @@ public class BlueManager {
                     ConnectDeviceRunnable connectDeviceRunnable = new ConnectDeviceRunnable(mac);
                     checkNotNull(mExecutorService);
                     mExecutorService.submit(connectDeviceRunnable);
+                }
+            } else {
+                Log.i("blue", "the blue is connected !");
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 连接bluetooth
+     * ble蓝牙
+     * @param mac
+     */
+    public void connectBleDevice(String mac) {
+        try {
+            if (mCurrStatus != STATUS.CONNECTED) {
+                if (mac == null || TextUtils.isEmpty(mac))
+                    throw new IllegalArgumentException("mac address is null or empty!");
+                if (!BluetoothAdapter.checkBluetoothAddress(mac))
+                    throw new IllegalArgumentException("mac address is not correct! make sure it's upper case!");
+                if (mReadable = false) {
+                    mReadable = true;
+                }
+                if (mWritable = false) {
+                    mWritable = true;
+                }
+                if (onConnectListener != null) {
+                    onConnectListener.onConnectStart();
+                    ConnectBleDeviceRunnable connectBleDeviceRunnable = new ConnectBleDeviceRunnable(mac);
+                    checkNotNull(mExecutorService);
+                    mExecutorService.submit(connectBleDeviceRunnable);
                 }
             } else {
                 Log.i("blue", "the blue is connected !");
@@ -436,6 +474,122 @@ public class BlueManager {
                 mOutputStream = mSocket.getOutputStream();
                 mCurrStatus = STATUS.CONNECTED;
                 onConnectListener.onConectSuccess(mac);
+            } catch (Exception e) {
+                e.printStackTrace();
+                onConnectListener.onConnectFailed();
+                try {
+                    mInputStream.close();
+                    mOutputStream.close();
+                } catch (Exception closeException) {
+                    closeException.printStackTrace();
+                }
+                mCurrStatus = STATUS.FREE;
+            }
+        }
+    }
+
+
+
+    /**
+     * 连接bluetooth线程
+     * ble蓝牙
+     */
+    private class ConnectBleDeviceRunnable implements Runnable {
+        private String mac;
+
+        public ConnectBleDeviceRunnable(String mac) {
+            this.mac = mac;
+        }
+
+        @Override
+        public void run() {
+            try {
+                if (onConnectListener == null) {
+                    Log.i("blue", "the connectListener is null !");
+                    return;
+                }
+                BluetoothDevice remoteDevice = mBluetoothAdapter.getRemoteDevice(mac);
+                onConnectListener.onConnectting();
+                mBluetoothAdapter.cancelDiscovery();
+                mBluetoothGatt = remoteDevice.connectGatt(mContext, false, new BluetoothGattCallback() {
+                    //当连接状态发生改变
+                    @Override
+                    public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+                        super.onConnectionStateChange(gatt, status, newState);
+                        Log.d(TAG,"Ble蓝牙连接中------status===="+status);
+                        if (newState == BluetoothGatt.STATE_CONNECTED) {
+                            mCurrStatus = STATUS.CONNECTED;
+                            Log.e(TAG, "设备连接上 开始扫描服务");
+                            // 开始扫描服务，安卓蓝牙开发重要步骤之一
+                            mBluetoothGatt.discoverServices();
+                            onConnectListener.onConectSuccess(mac);
+                        }
+                        //断开连接
+                        if (newState == BluetoothGatt.STATE_DISCONNECTED) {
+                            mCurrStatus = STATUS.FREE;
+                        }
+                    }
+                    //发现新服务，即调用了mBluetoothGatt.discoverServices()后，返回的数据
+                    @Override
+                    public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+                        super.onServicesDiscovered(gatt, status);
+
+                        List<BluetoothGattService> servicesList;
+                        //获取服务列表
+                        servicesList = mBluetoothGatt.getServices();
+
+                    }
+                    //调用mBluetoothGatt.readCharacteristic(characteristic)读取数据回调，在这里面接收数据
+                    @Override
+                    public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                        super.onCharacteristicRead(gatt, characteristic, status);
+                    }
+                    //发送数据后的回调
+                    @Override
+                    public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                        super.onCharacteristicWrite(gatt, characteristic, status);
+                    }
+
+                    @Override
+                    public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+                        super.onCharacteristicChanged(gatt, characteristic);
+                    }
+
+                    @Override
+                    public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+                        super.onDescriptorRead(gatt, descriptor, status);
+                    }
+
+                    @Override
+                    public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+                        super.onDescriptorWrite(gatt, descriptor, status);
+                    }
+
+                    @Override
+                    public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
+                        super.onReliableWriteCompleted(gatt, status);
+                    }
+
+                    @Override
+                    public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+                        super.onReadRemoteRssi(gatt, rssi, status);
+                    }
+
+                    @Override
+                    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+                        super.onMtuChanged(gatt, mtu, status);
+                    }
+                });
+
+//                mCurrStatus = STATUS.FREE;
+//                Log.d(TAG, "prepare to connect: " + remoteDevice.getAddress() + " " + remoteDevice.getName());
+//                mSocket = remoteDevice.createInsecureRfcommSocketToServiceRecord(UUID.fromString(Constants.STR_UUID));
+//                onConnectListener.onConnectting();
+//                mSocket.connect();
+//                mInputStream = mSocket.getInputStream();
+//                mOutputStream = mSocket.getOutputStream();
+//                mCurrStatus = STATUS.CONNECTED;
+//                onConnectListener.onConectSuccess(mac);
             } catch (Exception e) {
                 e.printStackTrace();
                 onConnectListener.onConnectFailed();

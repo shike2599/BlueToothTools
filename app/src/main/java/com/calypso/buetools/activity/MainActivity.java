@@ -85,7 +85,8 @@ public class MainActivity extends AppCompatActivity {
                     contextView.setText(stringBuilder.toString());
                     break;
                 case 4:
-                    statusView.setText(message);
+                    Toast.makeText(MainActivity.this,message,Toast.LENGTH_LONG).show();
+//                    statusView.setText(message);
                     deviesinfo.setVisibility(View.VISIBLE);
                     devieslist.setVisibility(View.GONE);
                     Intent intent = new Intent();
@@ -268,21 +269,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 String mac = mDevices.get(position).getAddress();
-                bluemanage.connectDevice(mac);
+//                bluemanage.connectDevice(mac);\
+                //BLe蓝牙连接
+                bluemanage.connectBleDevice(mac);
             }
         });
 
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                bluemanage.setReadVersion(false);
-//                bluemanage.searchDevices();
-//                parent_r0.setVisibility(View.VISIBLE);
-//                search_btn.setVisibility(View.GONE);
-//                radarView.start();
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,DeviceTypeActivity.class);
-                MainActivity.this.startActivity(intent);
+                bluemanage.setReadVersion(false);
+                bluemanage.searchDevices();
+                parent_r0.setVisibility(View.VISIBLE);
+                search_btn.setVisibility(View.GONE);
+                radarView.start();
+//                Intent intent = new Intent();
+//                intent.setClass(MainActivity.this,DeviceTypeActivity.class);
+//                MainActivity.this.startActivity(intent);
             }
         });
 
@@ -322,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
      * @param type    0 修改状态  1 更新进度  2 体检完成  3 体检数据进度
      * @param context
      */
+
     public void sendMessage(int type, String context) {
         if (handler != null) {
             Message message = handler.obtainMessage();
@@ -330,7 +334,6 @@ public class MainActivity extends AppCompatActivity {
             handler.sendMessage(message);
         }
     }
-
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 2) {
             if (permissions[0].equals(Manifest.permission.ACCESS_COARSE_LOCATION) && grantResults[0]
