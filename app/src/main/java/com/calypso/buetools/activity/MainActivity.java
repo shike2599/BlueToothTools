@@ -278,14 +278,14 @@ public class MainActivity extends AppCompatActivity {
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bluemanage.setReadVersion(false);
-                bluemanage.searchDevices();
-                parent_r0.setVisibility(View.VISIBLE);
-                search_btn.setVisibility(View.GONE);
-                radarView.start();
-//                Intent intent = new Intent();
-//                intent.setClass(MainActivity.this,DeviceTypeActivity.class);
-//                MainActivity.this.startActivity(intent);
+//                bluemanage.setReadVersion(false);
+//                bluemanage.searchDevices();
+//                parent_r0.setVisibility(View.VISIBLE);
+//                search_btn.setVisibility(View.GONE);
+//                radarView.start();
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,DeviceTypeActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
 

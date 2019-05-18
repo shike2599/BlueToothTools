@@ -62,18 +62,36 @@
             android:layout_height="wrap_content"
             android:text="巡 检 时 间："
             android:textSize="18dp"
-            android:layout_weight="1"
             />
         <Spinner
             android:id="@+id/time_Spinner"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="18dp"
+            android:layout_weight="1"
             />
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="采 集 器 信 息："
+        android:textSize="18dp"
+        android:layout_marginBottom="5dp"
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/wangguan_RecyclerView"
+        android:layout_weight="1"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <Button
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开始设置"
+        android:onClick="wangGuanSetting"
+        android:background="@drawable/button_shape"
+        />
 </LinearLayout>

@@ -66,4 +66,39 @@ public class SendMessageUtils {
         byte_arr[0] = (byte)(number >> 8 & 0xFF);
         return byte_arr;
     }
+
+    public byte[] int2hexTo4(int number){
+        String hex = Integer.toHexString(number);
+        Log.d("hex","hex==="+hex);
+        byte[] byte_arr = new byte[4];
+        byte_arr[3] = (byte)(number & 0xFF);
+        byte_arr[2] = (byte)(number >> 8 & 0xFF);
+        byte_arr[1] = (byte)(number >> 16 & 0xFF);
+        byte_arr[0] = (byte)(number >> 24 & 0xFF);
+        return byte_arr;
+    }
+
+    /**
+     * 发送IP的数组
+     * @return
+     */
+    public List<Byte> getIpList(){
+        List<Byte> list = new ArrayList<>();
+        for(int i = 0; i < ip_byte.length; i++){
+            list.add(ip_byte[i]);
+        }
+        return list;
+    }
+
+    /**
+     * 发送IP的数组
+     * @return
+     */
+    public List<Byte> getRTSPList(){
+        List<Byte> list = new ArrayList<>();
+        for(int i = 0; i < RPRS_byte.length; i++){
+            list.add(RPRS_byte[i]);
+        }
+        return list;
+    }
 }

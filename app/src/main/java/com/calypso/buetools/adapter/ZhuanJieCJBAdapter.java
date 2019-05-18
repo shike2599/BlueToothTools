@@ -19,8 +19,10 @@ import java.util.Map;
 
 public class ZhuanJieCJBAdapter extends RecyclerView.Adapter<ZhuanJieCJBAdapter.ZhuanJieBanViewHolder> {
     private List<Map<String,String>> datalist;
-    public ZhuanJieCJBAdapter(){
+    private boolean isGone;
+    public ZhuanJieCJBAdapter(boolean flag){
         datalist = new ArrayList<>();
+        isGone = flag;
     }
     public void setDate(List<Map<String,String>> list){
         datalist = list;
@@ -38,15 +40,19 @@ public class ZhuanJieCJBAdapter extends RecyclerView.Adapter<ZhuanJieCJBAdapter.
     @Override
     public void onBindViewHolder(ZhuanJieBanViewHolder holder, final int position) {
         Map map = datalist.get(position);
-        holder.show_deviceName.setText((position+1)+": ");
+        holder.show_deviceName.setText(("采集器id"+(position+1))+": ");
         holder.input_deviceId.setText(map.get("device_id").toString());
-        holder.delete_Img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                datalist.remove(position);
-                notifyDataSetChanged();
-            }
-        });
+        if(isGone){
+            holder.delete_Img.setVisibility(View.GONE);
+        }else{
+            holder.delete_Img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    datalist.remove(position);
+                    notifyDataSetChanged();
+                }
+            });
+        }
     }
 
     @Override

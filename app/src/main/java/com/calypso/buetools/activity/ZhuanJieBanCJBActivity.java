@@ -34,7 +34,7 @@ public class ZhuanJieBanCJBActivity extends AppCompatActivity {
         setContentView(R.layout.activity_zhuan_jie_ban_cjb);
         mRecyclerView = findViewById(R.id.zhuanJieBan_recyclerView);
         dataList = new ArrayList<>();
-        mAdapter = new ZhuanJieCJBAdapter();
+        mAdapter = new ZhuanJieCJBAdapter(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL,false));
         mRecyclerView.setAdapter(mAdapter);
